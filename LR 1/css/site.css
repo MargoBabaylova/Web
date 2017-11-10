@@ -1,0 +1,27 @@
+.descr-box {
+  display: inline-block;
+  width: 90%;
+  border: 2px solid black;
+  padding: 60px 20px 10px 20px;
+  height: 230px;
+  margin-left: 30px;
+  overflow: hidden; }
+
+.descr-arrow {
+  display: inline-block;
+  font-size: 25px;
+  position: absolute;
+  bottom: 94px; }
+
+.title-descr-box {
+  margin-top: 25px; }
+
+.img-block {
+  padding-top: 40px;
+  padding-bottom: 40px; }
+
+.listing-example {
+  margin-left: 170px;
+  margin-right: 170px; }
+
+/*# sourceMappingURL=site.css.map */

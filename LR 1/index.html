@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MVC</title>
+
+        <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="css/site.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="page-header text-center">
+            <h1>Модель <span class="glyphicon glyphicon-arrow-right"></span> Представление <span class="glyphicon glyphicon-arrow-right"></span> Контроллер</h1>
+        </div>
+        <div class="row">
+            <div class="jumbotron">
+                <p class="text-justify">Шаблон проектирования MVC предполагает разделение данных приложения, пользовательского интерфейса и управляющей логики на три отдельных компонента: Модель, Представление и Контроллер – таким образом, что модификация каждого компонента может осуществляться независимо.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
+                <div class="descr-box">
+                    <h2 class="text-center">Модель (данные)</h2>
+                    <p class="text-center">служит для извлечения и манипуляций данными приложения</p>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="descr-arrow hidden-sm hidden-xs">
+                    --
+                </div>
+                <div class="descr-box">
+                    <h2 class="text-center">Контроллер .h .m</h2>
+                    <p class="text-center">управляет передачей информации</p>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="descr-arrow hidden-sm hidden-xs">
+                    --
+                </div>
+                <div class="descr-box">
+                    <h2 class="text-center">Представление .xib</h2>
+                    <p class="text-center">отвечает за видимое пользователю отображение данных</p>
+                </div>
+            </div>
+        </div>
+        <p class="lead text-center title-descr-box">Архитектурный паттерн MVC (Model, View, Controller)</p>
+        <h1 class="text-danger text-center">Классическая схема веб-приложения:</h1>
+        <div class="img-block text-center">
+            <img src="images/img1.jpg" class="img-thumbnail">
+        </div>
+        <p class="lead text-center">условно пунктиром обозначены заголовки HTTP-запроса и ответа, а сплошными линиями – их тела.</p>
+        <div class="img-block text-center">
+            <img src="images/img2.jpg" class="img-thumbnail">
+        </div>
+        <p class="lead text-center">Вы можете проектировать своё приложение по MVC, при этом не применяя ООП, и спроектировать Модель Товар для интернет-магазина таким образом:</p>
+        <div class="well listing-example">&lt;? <br><br>
+            mixed Product_Load (int $id) { ... } <br>
+            // возвращает ассоциативный массив с данными о Товаре либо FALSE при неудаче <br><br>
+            bool Product_Save (array $data) { ... } <br>
+            // возвращает TRUE при удачном сохранении данных $data, либо FALSE при неудаче <br><br>
+        ?&gt;</div>
+        <div class="img-block text-center">
+            <img src="images/img3.jpg" class="img-thumbnail">
+        </div>
+        <p class="lead text-center">Листинг 1. Шаблон <strong>product.tpl.php</strong> отображает данные о Товаре (которые к моменту его вызова уже содержит объект <strong>$product</strong>):</p>
+        <div class="well listing-example">&lt;!-- HTML.header --&gt;<br><br>
+            &lt;h1&gt;&lt;?=$product-&gt;Title;?&gt;&lt;/h1&gt;<br>
+            &lt;p&gt;Цена:&lt;b class="price"&gt;&lt;?=$product-&gt;Price;?&gt;&lt;/b&gt;&lt;/p&gt;<br>
+            &lt;p class="description"&gt;&lt;?=$product-&gt;Description;?&gt;&lt;/p&gt;<br><br>
+        &lt;!-- HTML.footer --&gt;</div>
+        <p class="lead text-center">Листинг 2. Шаблон <strong>error.tpl.php</strong> отображает сообщение об ошибке (которое содержится в переменной <strong>$error</strong>):</p>
+        <div class="well listing-example">&lt;!-- HTML.header --&gt;<br><br>
+            &lt;h1 class="error"&gt;Ошибка: &lt;?=$error;?&gt;&lt;/h1&gt;<br><br>
+        &lt;!-- HTML.footer --&gt;</div>
+        <p class="lead text-center">Листинг 3. Контроллер <strong>product.php</strong>, служащий для отобоажения Товара, будет выглядеть примерно так:</p>
+        <div class="well listing-example">&lt;?<br><br>
+            include 'product.class.php';// в этом файле декларируются методы Модели Товар<br><br>
+            // определение этой функции в контроллере, конечно, неправильно<br>
+            // в данном случае она здесь только для наглядности<br>
+            function Error ($error) {<br>
+            // выводит сообщение об ошибке и завершает работу контроллера, примерно так: <br>
+            header('Правильный статус ошибки, например, 400 или 404'); <br>
+            $error = 'Соответствующее ошибке сообщение пользователю, например, Страницы не существует'; <br>
+            include 'error.tpl.php';// шаблон для отображения ошибки <br>
+            exit; <br>
+        } <br><br>
+        if (!$id = ...)// проверка "общей" валидности Запроса 1 <br>
+        error(...); <br><br>
+        // проверка прав доступа <br>
+        if (!$user-&gt;Access(...)) <br>
+        error(403); <br><br>
+        if (!$product = Product::Load($id))// Запрос 2 и анализ Ответа 2 <br>
+        error('Тут скорее всего случилась ошибка БД'); <br><br>
+        include 'product.tpl.php';// Запрос 3 и Ответы 3 и 4 <br><br>
+    ?&gt;</div>
+</div>
+ 
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>
